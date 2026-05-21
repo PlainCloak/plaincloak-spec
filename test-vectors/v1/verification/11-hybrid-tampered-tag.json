@@ -1,0 +1,30 @@
+{
+  "version": "v1",
+  "kind": "verification",
+  "category": "hybrid-tampered-tag",
+  "description": "A hybrid wire message with the last byte of the AEAD tag flipped after signing. The AES-GCM tag check MUST fail, surfacing decryption-failed (Section 10.2 step 2).",
+  "spec_references": [
+    "spec/v1/08-crypto-suites.md#8.10.5",
+    "spec/v1/10-encrypt-decrypt.md#10.3.3"
+  ],
+  "cases": [
+    {
+      "id": "v1-ver-hybrid-tampered-tag-001",
+      "description": "Last byte of the 16-byte AEAD tag flipped after signing.",
+      "inputs": {
+        "wire": "PLAINCLOAK:v1:BR:DccN4L4HrgK8mmBouhrzbOeXYidbsJSFbQZJ57kUQKsi9ieYMNitS9hDmvq7opgjF8BIJ5OO4zicKMArlzXpMU1pHAM9LCWQPWJHrKKUqCkn9wc4EVve3yF6h9z1NQKxX5tdiYkcmSMMKnCWUQJaNoDceh3yrq75ptdWnoainQzjS1hYqn2uyt0BVKPljGN39e6w4hHVJ15kC8R8ByQvkTSUo06iuuTEJ4FS1a9tFrjxp0b33SidHiZ2ChEFHD3QFDKvrALKLGxOuHvMbyiwYkvceVHngiowcF1voY6PAigunocdTVfTyq4Wzcg4YNKUhkVEdIbYWtBca6lykPkPePCS0mdCgQMNBDtMzUvNRbrEBqtLJDiW47moBxKYiRwNPwXrUHeiG4lTHCc11TgbBz2DSEO0HnXD0lpgNS2rAqiPiy5MrJgC499g5bIxPFpPYpapwTUn0kru4njezduOhlFA3mumPeod8IcBiwm5LLQMQiW9cpgOroNzDW4eD6XTd4MbIchg13aI0hkWUncEH21Ph9aD3U91ueudLjcgpLf5rYwjz7HRWjC9UnesV7UYgG9sNARm0xGEuqi2JtL1xguAIdyyvyZejpqatevDTcPtEZ30dqz5h3TEpprNggOV5DIxPezykCTGyeAJiYhb6XlEpmL4Y1Hc83nb0IdmQUAgFDp2EYlDe3nKVoYqOlGe3kESQDqIrJscrDfAWoEqzfv8ZismYgIobQmqFcTGK1BsO0vPycY2yzdnLqNPYHYXqu01jWU2UeJYQQEdAu2TW4gLjsUrCJuP6sqUj9lTT3Q02OfNNlAPWiJjPtpczbRRCnsrx56v1k2ESZpluAwXLzFvwH3ZjASQPus7uor2m5FTHPX9rpAM7dIb4qCrLKx0WfTaM7lRnut3LlTPgXGY4fq1l2tYb76PTt0RBkEj9VXnbOSNoPWRivok206UDHaKLthyeJeF3sjmQmEKlfDrOqHYLFH24eloUqI6BZoB3YZZStiVKjG4l0Etz39zPf6OlgrQd7KNy1RSweznLa80DBupTp3CR9LoU1ZwBeOslifXnJQ8ASE0TxhSPp8Zw9ZAbukBzg7koSbq9e8u4Q87KeIBZ7uZe32BxlgD5vx45y0VmT1Ws8y4xSCpZVG6ULRt13LG3THhkWVfkLYNvuk3SHvyEhVKjBejuoWUTJzXJUAHodDW1wp9OAzHvuuWFInFFN2Dezq0UiwiA3F5ui9HljPkjT26hW6u3x8nFVqkpTGw8cGHLdtgEuAa5KLkyidV4vrGu7BocalQVdNdporq0Mlk3hFrRHAgq3zGf3EqG9B3oNaJQeN7HmNjx2u5VDqFh7ZY40gs3T1cVmuYSDeQiBEGbktwsy4iDOUD6a3KNoko3tIIUGoabKomMkTe97dg6Jx7Y2njOUnx",
+        "recipient_priv_pem_path": "test-vectors/v1/fixtures/keys/bob-rsa4096-priv.pem",
+        "trusted_senders": [
+          {
+            "key_hash": "1bf44bedd390cd114d5511c53286330f29c9fe70a4ab86118731860898ef88da",
+            "public_key_pem_path": "test-vectors/v1/fixtures/keys/alice-rsa2048-pub.pem"
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "decryption-failed",
+        "plaintext_present": false
+      }
+    }
+  ]
+}

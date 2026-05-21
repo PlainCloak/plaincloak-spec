@@ -1,0 +1,30 @@
+{
+  "version": "v1",
+  "kind": "verification",
+  "category": "tampered-signature",
+  "description": "A wire message whose signature was modified after signing. Decryption succeeds but signature verification MUST fail. Plaintext MUST still be surfaced with the signature-invalid outcome per spec/v1/10-encrypt-decrypt.md section 10.3.4.",
+  "spec_references": [
+    "spec/v1/10-encrypt-decrypt.md#10.2",
+    "spec/v1/10-encrypt-decrypt.md#10.3.4"
+  ],
+  "cases": [
+    {
+      "id": "v1-ver-tampered-signature-001",
+      "description": "Last byte of PSS signature flipped after signing.",
+      "inputs": {
+        "wire": "PLAINCLOAK:v1:BR:qqHQq36PfVB4ThwfmKMMLGFdVfilYnR9omrHdyDJQXkjpHw1LUKkY3iloGuI8JQ2HfBYBMWXLKJdVo5hG9jahSsGGWLxUN08Tpnbr0eQUC7orZvolgldWxTZt5nNh6XC1mMvPzq69x5ZARuwa5Q39GFNvFJVCxqCt6uHNQ10kAal8P0szCjM7F94ShTR57q4wPvuWE6vB7SSVI0r8gEV86hJfLmEjnNmnNPIq8crmfR8qk0E5Nbr5zgRr6eEqHmrYY1t5SaM42LqeKQ7zPQ0TnnCCzqoIu2sAHyesq9wc9xdlLnhTuhv9c3TGW6PYmyXK1xGXe6sxnrbfukrAWsYYN4qIRfprFdTFlyadk4CYTyPzy4CxcKYaopWnEtel7mPygnIPpq8dUG0WmYwlxdx9W2Z0n6mTvxShantJA8TvjcbzKClDJzNKi2JNBoIyYgGJM91yR0naJYlCPFD3WpDb3Y5XAu1XNzVXl6EbZe4xb6Dqmmieq3MXimnbaYkUK4GgCfwXbyGivJ5yRjJ381LoF122zs2u4necBIt4cySMsFdOfIbqHSvU9n94E8MtkGDHnbTPDxP783qa9b4WLUf3nZOX4bLfQV4tf400mceNBWSRx6OSVevv7NuHViA7sILqCwNk87lLXcp3oiaOaA9YLlKHM3uEZhF82mvldxnisY4HlXwPRzjH2zuFl8kSX2AOiryDoZKAgO90K5QKZMyrMPW7FQrf9abalGge5DBVolZTutDsjNMsNf9BdGOgCZFQVccSZbKq51RhdPmpID8JVbQ5tO3vhlzxD7OJdq5nlSc9Ds2s3gpuEb20KU2yGNCqQF9SfdIBAEeNB1MHrJq4sceevVjR1Lqp6Sdya8xleVsm8W3m0tu3MOv6LMp0a8D00zLDXtoT9qNzJ6AjEsUCBS4Fo3CTxsF2KHbpcpjvlbumCXvMygoKoEHcOII1YzBKyZs2Q2z2GDHehtfaFIST75Ds42ZYkZx7QaHt73nKNquUuhdqB88qHtoIrbr9tRlPvWDAkYMhnsD9YioSttHP1sXEvmShDOlpuvzpz0aRt8pqjrnNwRxSFq35GRBvCxFhNxb0tKFW8lXkS52SYQQR2akeNF75y4CgPItcpYcRqAf37CeGhuegulRlbfT8P1qZSczKXjlXFgkyQTs0Z4R3J8u2uIm9TdL53pUcjGWifpnHRijRSdq5tqXyHbIP1LnUgmfeX0giVfEXxD9xMdK9g5RtAbZVbZ8TkRxRsWXnMmLsx8xTuWf3j0sx98LEFsUr5vev3XamBAy8ZLSSF9ZwHfp78xOwvVuSLDYjFsSnGzWBfO3YEJ",
+        "recipient_priv_pem_path": "test-vectors/v1/fixtures/keys/bob-rsa4096-priv.pem",
+        "trusted_senders": [
+          {
+            "key_hash": "1bf44bedd390cd114d5511c53286330f29c9fe70a4ab86118731860898ef88da",
+            "public_key_pem_path": "test-vectors/v1/fixtures/keys/alice-rsa2048-pub.pem"
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "signature-invalid",
+        "plaintext": "Tampered-signature test."
+      }
+    }
+  ]
+}

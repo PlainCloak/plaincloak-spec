@@ -1,0 +1,21 @@
+; PlainCloak v1 wire-format grammar.
+; Augmented Backus-Naur Form per RFC 5234, with case-sensitive string
+; literals per RFC 7405. The %s"..." form denotes a case-sensitive literal.
+; Bare "..." literals are used only for the ":" delimiter, whose single
+; character has no case, so RFC 5234 case-insensitivity does not apply.
+;
+; This file is normatively referenced by spec/v1/03-wire-format.md and
+; spec/v1/appendix-b-abnf.md.
+
+wire-message    = magic ":" version ":" comp-code ":" wire-payload
+
+magic           = %s"PLAINCLOAK"
+version         = %s"v1"
+comp-code       = 2(ALPHA-UPPER)
+wire-payload    = 1*BASE62-CHAR
+
+BASE62-CHAR     = DIGIT / ALPHA-UPPER / ALPHA-LOWER
+
+ALPHA-UPPER     = %x41-5A          ; A-Z
+ALPHA-LOWER     = %x61-7A          ; a-z
+DIGIT           = %x30-39          ; 0-9

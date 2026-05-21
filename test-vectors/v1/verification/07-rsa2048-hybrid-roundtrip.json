@@ -1,0 +1,35 @@
+{
+  "version": "v1",
+  "kind": "verification",
+  "category": "rsa2048-hybrid-roundtrip",
+  "description": "Hybrid (RSA-OAEP-AES256GCM-SHA256) encrypt-then-verify roundtrip with a 2048-bit recipient. Tests Section 8.10 against a short plaintext.",
+  "spec_references": [
+    "spec/v1/08-crypto-suites.md#8.10",
+    "spec/v1/10-encrypt-decrypt.md#10.2",
+    "spec/v1/10-encrypt-decrypt.md#10.3.1"
+  ],
+  "cases": [
+    {
+      "id": "v1-ver-rsa2048-hybrid-roundtrip-001",
+      "description": "Hybrid roundtrip with a 2048-bit recipient.",
+      "inputs": {
+        "wire": "PLAINCLOAK:v1:BR:2FuQnp5hMfixyjBSugZX3NVBi5Caz1BF84pMrFpGCcYQJPd0Eb0CuZIl7znNVryrxPUwnS9GEmngxuYMc3ljyMJZ5MYiCgeM9ywcjSe9j6JLIXnthQg4G26mj6PwFo4PgK8Clt01wumUseoZCIXNEr70HFu9Igy1TPJ4JkfJw5yM9dO6Fk4hB8Fi2cY5UscHAxXx78NSui4ZGPAqvLyiwV17WqbEhE9jcY3YRH6KetS7UsQLAd60KrdEVbRUppvvNl4edLxhJeKMNFTBFOHYigynaMrEv1TzvCGpufrJyONywZVHkRu8daX80QlzrZE8DkxDrD7RMlQ9vAmIWfKZ0RK5jbjkF11raHWWlgq3LrTaHiRNVA9BJvjjAzJdJqPpjLkjPuKmg0JgXYGJIFLsEMFflzOplny628swZLz8Np2K0aimkV4PMlbQaTnnXRjSfgkV41wVUpky3IavED4HM26kxLkg2KnCRlDfX1qp6ZwDrQacT9v1FYi30SHti0GQBnGuLvW3DKsGIjRwcqtLpjW3ZpnUBSE00JucbLOiT21K2Q9rgIiyiLohcT6ZFB7Litnoa3zBIiUGfMcZ1oFmopmKuewTefvhmKduhO28TPjdAuJC4N4gn2btoUWKCncmbre7JSoEETrWuYgccmJ25Zww0CG7WM1GyyrjbuKd9LMMUoVnj2eNnfzpJZDOeeMAsIR806T0ed4W7Pyq8OT0vhKZOp9EfChMmTv2QPwcbqVGqwcUil1LhSYcct8uHk4UC569RcpqeRm0t5zGJeWEzBjAsVDjqhYEFYBG5RNR7MeB1mSWGykO5ICRnse6btprHVlqkpZDY4S5ZMzrXYFVyDjCvkFLavpSKUeMH5FR1GpgR8spLyupcswCbIVv66JO27RQHoXpYlX8l34Bi1oL0pynSrnRXpzuWZ7OUOnTrnDiWVuOlPmx33Di1sMcwozwOGAG0wZ9e0O6M0PPNx9cIUPEMojMBjz8SnO0j2i84ww99C0sFKH3T0Mf8in6EqJGtNnrbEVRi0TWdvxfcm8BXDmyrlqMGumZ6ommbU8HwYYEHVUQ1LeXrL7T2vugiNSy3W9GiSqYdTSxwqi7OICwOsrteh1QAT3NQKAcOhr29eKMN1JgHr9f6xlXbKjmLI2Zr6p3xIeFkHWvGSgmW6yNFaIGGlhw18Aqd8aSJu2fBvRcZNMwFezPPa86UTsqa7swT9qheTCbl9ulwQ98X5IEkmzbxgdmlOdrk0jqluRHcIG083QxmoEcxgKp0MiNjAzX8i1WeIqkQoUUJVZA0YuvlENuy7BiM4Znjt6B4NlwoxpEFpbMXA0V2WfeU9SVSvDV6QbIQgFhORskr6j79tp2VwXbbuBG4cRjUvEAyoGZLZfZJCWXs60y9zVHbPwYM65",
+        "recipient_priv_pem_path": "test-vectors/v1/fixtures/keys/alice-rsa2048-priv.pem",
+        "trusted_senders": [
+          {
+            "key_hash": "b3cef20ec636c4125ae580da93dc0f13bdcdb1c3eea907543ed35ad52e024aee",
+            "public_key_pem_path": "test-vectors/v1/fixtures/keys/bob-rsa4096-pub.pem"
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "verified",
+        "plaintext": "Hello Alice. RSA-2048 hybrid roundtrip test.",
+        "msg_id": "c1de17a9-2f06-474c-a4bd-eba3fa980700",
+        "timestamp": 1746789123456,
+        "sender_key_hash": "b3cef20ec636c4125ae580da93dc0f13bdcdb1c3eea907543ed35ad52e024aee",
+        "recipient_key_hash": "1bf44bedd390cd114d5511c53286330f29c9fe70a4ab86118731860898ef88da"
+      }
+    }
+  ]
+}

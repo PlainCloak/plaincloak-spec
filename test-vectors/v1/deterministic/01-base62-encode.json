@@ -1,0 +1,101 @@
+{
+  "version": "v1",
+  "kind": "deterministic",
+  "category": "base62-encode",
+  "description": "Inputs are octet strings (hex). Expected outputs are the Base62 encoding produced by the algorithm in spec/v1/04-encoding.md section 4.2.",
+  "spec_references": [
+    "spec/v1/04-encoding.md#4.2"
+  ],
+  "cases": [
+    {
+      "id": "v1-det-base62-encode-001",
+      "description": "empty input encodes to empty string",
+      "inputs": {
+        "bytes_hex": ""
+      },
+      "expected": {
+        "base62": ""
+      }
+    },
+    {
+      "id": "v1-det-base62-encode-002",
+      "description": "single zero byte encodes to '0'",
+      "inputs": {
+        "bytes_hex": "00"
+      },
+      "expected": {
+        "base62": "0"
+      }
+    },
+    {
+      "id": "v1-det-base62-encode-003",
+      "description": "two zero bytes encode to '00'",
+      "inputs": {
+        "bytes_hex": "0000"
+      },
+      "expected": {
+        "base62": "00"
+      }
+    },
+    {
+      "id": "v1-det-base62-encode-004",
+      "description": "0x01 encodes to '1'",
+      "inputs": {
+        "bytes_hex": "01"
+      },
+      "expected": {
+        "base62": "1"
+      }
+    },
+    {
+      "id": "v1-det-base62-encode-005",
+      "description": "0x3D encodes to 'z' (single max-alphabet char)",
+      "inputs": {
+        "bytes_hex": "3d"
+      },
+      "expected": {
+        "base62": "z"
+      }
+    },
+    {
+      "id": "v1-det-base62-encode-006",
+      "description": "0x3E encodes to '10' (first carry)",
+      "inputs": {
+        "bytes_hex": "3e"
+      },
+      "expected": {
+        "base62": "10"
+      }
+    },
+    {
+      "id": "v1-det-base62-encode-007",
+      "description": "0xFFFF encodes to 'H31' (multi-digit, no leading zero)",
+      "inputs": {
+        "bytes_hex": "ffff"
+      },
+      "expected": {
+        "base62": "H31"
+      }
+    },
+    {
+      "id": "v1-det-base62-encode-008",
+      "description": "leading zero preserved before content",
+      "inputs": {
+        "bytes_hex": "00ff"
+      },
+      "expected": {
+        "base62": "047"
+      }
+    },
+    {
+      "id": "v1-det-base62-encode-009",
+      "description": "ASCII 'Hello' bytes",
+      "inputs": {
+        "bytes_hex": "48656c6c6f"
+      },
+      "expected": {
+        "base62": "5TP3P3v"
+      }
+    }
+  ]
+}

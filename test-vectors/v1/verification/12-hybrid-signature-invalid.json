@@ -1,0 +1,34 @@
+{
+  "version": "v1",
+  "kind": "verification",
+  "category": "hybrid-signature-invalid",
+  "description": "A hybrid wire message with `p` intact but `g` (signature) tampered. Decryption MUST succeed, signature MUST fail, plaintext IS surfaced together with the signature-invalid label (Section 10.3.4).",
+  "spec_references": [
+    "spec/v1/08-crypto-suites.md#8.10.5",
+    "spec/v1/10-encrypt-decrypt.md#10.3.4"
+  ],
+  "cases": [
+    {
+      "id": "v1-ver-hybrid-signature-invalid-001",
+      "description": "Last byte of the RSA-PSS signature flipped.",
+      "inputs": {
+        "wire": "PLAINCLOAK:v1:BR:3kFpQXjKmimIkRr95OPkuyYVxS08k0BRGvbAnSzHqByrQaBUjaSP1phO4FXkS8KI5GMmlkq2Ec9Ag6h8vDg5s1DgnaBMIAV5xpxs3bDegBRUEAXT69VvKQ9rX9wjv4OZxtofRgwREHvuGWnvFnKKLnFNmyauoaAw77ABfh4r0wA9taZ3lIAqdJ4MD3tE1dD8K7OsVCYU53IrKRHt9qLQvnro0FFt8lZPwVhm8hoZH7nFOMkvNEVW25lU14WYTtZiFdsTjmsaQmovzU4oTM9sZpgR367eUF1MegTRODRtrnZ8ohss4PIhB25wZMXCfQUeJLUA4k0bVkx2GVjCScpL7So3lpln6b5zqLfph5CP25hoHltXkUAZTBJXI87v3D3zkK62R9dxGvZWN03PC70Jsc6Kuj7aqeehdDHTMpJ63QDK2MTW8wlmCKoiQtcVbDgcyx4SNfk50BVSzDUGQxms3Rxr2M53endlJQQr3Wlh8Bq3tTxFLc3T1Jj1J3SkyPEavK7g1uP2xdw2Gw5RPKCEHZvLqVRXbtqHY9nhG30e5RZ4Q0vj9R6fADftAV5DDCylo2Cmh0hVqm0to2WdtekXzOxTdp7NKhTVSvS9VLRTGiLa8pJzsCQKdwlkBMUjwa51DufM4CRZEgWv6TcExagyJBlJPiMdv93ZgFX3FUpeGf31696LRZUdfJ9fa2R56jjnN4qFQwBgpJKxtGynkAmSWf1K3XKt8dmpRysOmPYYOj2VsT48AuzSS1uz1hWnL2Bky9JdBHq3khqdgWayG2uod2c3e0pqnat3YzKiR9IcBau3ZXgMyq09PqrrRVDMM1zUsnocvz127Z3fNnZRebBePnAhIO1UJWId8S0fBZueFAmtYtsq9ZGdXacMKbTPRhGccby3ybe5sw3aEKG4UPBo0eH7P5HFWnJqZC3EW63SlDBAzonFf7NKtRUtlC6RVGnfhqfXpiV9m1evvSlTmHVSoVeKtyhyk6rFQnVqVJvfCx3V1AtRdgB5VEON5APhw9fBZiWexX7UMjkV3tpwfKhLAvtcVAn3KQJlncW82SN7sY2yC3mKte9mEw1VptGl09TwzQ6v6vNO9tVZ2wVanmWTPt0EJ7GzeLnrLl4gRkgRNq7WMAj6reikGOVKQN2ZYri2MfSU6WlVdhlTl9bKAr8KXyMveq9hIC75TI78XvlDEFAaXAXTDY4hNI7yDaCZJ1ixgb4hqYwSneoqfUXXPso9E7U2pC5LPg0QrqNxdHtaUcG9v8UIFP2NFUhrHhSfCKwVJJzSb8QJdOzLlDh2R1B3qLPHpEoaHhcFxrNQP4cUttiW5jny7lMaonpBtMiuB2JuWGzthuk3nWAyf9Li6WQtEslThLIUIH0WU7uI9TwJ89sgtI6ITOOstL6ei98CtvnJp4QEbKvFcTFQHk5",
+        "recipient_priv_pem_path": "test-vectors/v1/fixtures/keys/bob-rsa4096-priv.pem",
+        "trusted_senders": [
+          {
+            "key_hash": "1bf44bedd390cd114d5511c53286330f29c9fe70a4ab86118731860898ef88da",
+            "public_key_pem_path": "test-vectors/v1/fixtures/keys/alice-rsa2048-pub.pem"
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "signature-invalid",
+        "plaintext": "Hybrid suite tampering test plaintext.",
+        "msg_id": "c1de17a9-2f06-474c-a4bd-eba3fa981000",
+        "timestamp": 1746789123456,
+        "sender_key_hash": "1bf44bedd390cd114d5511c53286330f29c9fe70a4ab86118731860898ef88da",
+        "recipient_key_hash": "b3cef20ec636c4125ae580da93dc0f13bdcdb1c3eea907543ed35ad52e024aee"
+      }
+    }
+  ]
+}

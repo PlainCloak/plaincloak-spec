@@ -1,0 +1,146 @@
+{
+  "version": "v1",
+  "kind": "deterministic",
+  "category": "base62-decode",
+  "description": "Inputs are Base62 strings. For accept cases, expected.bytes_hex is the octet string produced by the algorithm in spec/v1/04-encoding.md section 4.3. For reject cases, expected.reject is true and expected.error is 'invalid-base62' per step 1 of section 4.3.",
+  "spec_references": [
+    "spec/v1/04-encoding.md#4.3"
+  ],
+  "cases": [
+    {
+      "id": "v1-det-base62-decode-001",
+      "description": "empty string decodes to empty bytes",
+      "inputs": {
+        "base62": ""
+      },
+      "expected": {
+        "bytes_hex": ""
+      }
+    },
+    {
+      "id": "v1-det-base62-decode-002",
+      "description": "'0' decodes to single zero byte",
+      "inputs": {
+        "base62": "0"
+      },
+      "expected": {
+        "bytes_hex": "00"
+      }
+    },
+    {
+      "id": "v1-det-base62-decode-003",
+      "description": "'00' decodes to two zero bytes",
+      "inputs": {
+        "base62": "00"
+      },
+      "expected": {
+        "bytes_hex": "0000"
+      }
+    },
+    {
+      "id": "v1-det-base62-decode-004",
+      "description": "'1' decodes to 0x01",
+      "inputs": {
+        "base62": "1"
+      },
+      "expected": {
+        "bytes_hex": "01"
+      }
+    },
+    {
+      "id": "v1-det-base62-decode-005",
+      "description": "'z' decodes to 0x3D",
+      "inputs": {
+        "base62": "z"
+      },
+      "expected": {
+        "bytes_hex": "3d"
+      }
+    },
+    {
+      "id": "v1-det-base62-decode-006",
+      "description": "'10' decodes to 0x3E",
+      "inputs": {
+        "base62": "10"
+      },
+      "expected": {
+        "bytes_hex": "3e"
+      }
+    },
+    {
+      "id": "v1-det-base62-decode-007",
+      "description": "'H31' decodes to 0xFFFF",
+      "inputs": {
+        "base62": "H31"
+      },
+      "expected": {
+        "bytes_hex": "ffff"
+      }
+    },
+    {
+      "id": "v1-det-base62-decode-008",
+      "description": "'0' followed by content decodes leading zero",
+      "inputs": {
+        "base62": "01"
+      },
+      "expected": {
+        "bytes_hex": "0001"
+      }
+    },
+    {
+      "id": "v1-det-base62-decode-009",
+      "description": "reject: '+' is not in the Base62 alphabet (it is a Base64 character)",
+      "inputs": {
+        "base62": "ab+cd"
+      },
+      "expected": {
+        "reject": true,
+        "error": "invalid-base62"
+      }
+    },
+    {
+      "id": "v1-det-base62-decode-010",
+      "description": "reject: '/' is not in the Base62 alphabet (it is a Base64 character)",
+      "inputs": {
+        "base62": "ab/cd"
+      },
+      "expected": {
+        "reject": true,
+        "error": "invalid-base62"
+      }
+    },
+    {
+      "id": "v1-det-base62-decode-011",
+      "description": "reject: '=' is not in the Base62 alphabet (it is the Base64 padding character)",
+      "inputs": {
+        "base62": "abcd="
+      },
+      "expected": {
+        "reject": true,
+        "error": "invalid-base62"
+      }
+    },
+    {
+      "id": "v1-det-base62-decode-012",
+      "description": "reject: '-' is not in the Base62 alphabet (it is a Base64url character)",
+      "inputs": {
+        "base62": "ab-cd"
+      },
+      "expected": {
+        "reject": true,
+        "error": "invalid-base62"
+      }
+    },
+    {
+      "id": "v1-det-base62-decode-013",
+      "description": "reject: '_' is not in the Base62 alphabet (it is a Base64url character)",
+      "inputs": {
+        "base62": "ab_cd"
+      },
+      "expected": {
+        "reject": true,
+        "error": "invalid-base62"
+      }
+    }
+  ]
+}

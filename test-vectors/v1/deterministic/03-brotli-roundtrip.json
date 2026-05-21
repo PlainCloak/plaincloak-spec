@@ -1,0 +1,95 @@
+{
+  "version": "v1",
+  "kind": "deterministic",
+  "category": "brotli-roundtrip",
+  "description": "Inputs are octet strings. Implementations MUST verify that decompressing their own compress() output, and decompressing the reference compressed bytes, yields the original input. Exact compressed bytes are NOT byte-stable across encoders.",
+  "spec_references": [
+    "spec/v1/05-compression.md#5.2"
+  ],
+  "cases": [
+    {
+      "id": "v1-det-brotli-roundtrip-001",
+      "description": "empty input round-trips",
+      "inputs": {
+        "input_hex": "",
+        "compressed_hex_for_reference": "3b",
+        "encoder_params": {
+          "quality": 11,
+          "lgwin": 22,
+          "mode": "generic"
+        }
+      },
+      "expected": {
+        "decompressed_hex": "",
+        "roundtrip_property": "decompress(compress(input)) MUST equal input. Exact compressed bytes are NOT required to match across implementations."
+      }
+    },
+    {
+      "id": "v1-det-brotli-roundtrip-002",
+      "description": "ASCII 'Hello, world!' round-trips",
+      "inputs": {
+        "input_hex": "48656c6c6f2c20776f726c6421",
+        "compressed_hex_for_reference": "0b068048656c6c6f2c20776f726c642103",
+        "encoder_params": {
+          "quality": 11,
+          "lgwin": 22,
+          "mode": "generic"
+        }
+      },
+      "expected": {
+        "decompressed_hex": "48656c6c6f2c20776f726c6421",
+        "roundtrip_property": "decompress(compress(input)) MUST equal input. Exact compressed bytes are NOT required to match across implementations."
+      }
+    },
+    {
+      "id": "v1-det-brotli-roundtrip-003",
+      "description": "UTF-8 multi-byte chars round-trip",
+      "inputs": {
+        "input_hex": "68c3a96c6c6f2077c3b6726c6420e4b8ade69687",
+        "compressed_hex_for_reference": "8b098068c3a96c6c6f2077c3b6726c6420e4b8ade6968703",
+        "encoder_params": {
+          "quality": 11,
+          "lgwin": 22,
+          "mode": "generic"
+        }
+      },
+      "expected": {
+        "decompressed_hex": "68c3a96c6c6f2077c3b6726c6420e4b8ade69687",
+        "roundtrip_property": "decompress(compress(input)) MUST equal input. Exact compressed bytes are NOT required to match across implementations."
+      }
+    },
+    {
+      "id": "v1-det-brotli-roundtrip-004",
+      "description": "repetitive input compresses, round-trips",
+      "inputs": {
+        "input_hex": "616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263",
+        "compressed_hex_for_reference": "1b9500f825c3c4c642b320a0d1",
+        "encoder_params": {
+          "quality": 11,
+          "lgwin": 22,
+          "mode": "generic"
+        }
+      },
+      "expected": {
+        "decompressed_hex": "616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263616263",
+        "roundtrip_property": "decompress(compress(input)) MUST equal input. Exact compressed bytes are NOT required to match across implementations."
+      }
+    },
+    {
+      "id": "v1-det-brotli-roundtrip-005",
+      "description": "JSON-shaped body round-trips. Input is a fragment of a v1 body using the single-letter field names of spec/v1/06-message-body.md ({\"a\":\"RSA-OAEP-SHA256\",\"i\":\"550e8400-...\",\"t\":1746789123456}). The compressed_hex_for_reference field is omitted because Brotli encoder output varies by implementation; conforming consumers MUST decompress their own compress(input) to input.",
+      "inputs": {
+        "input_hex": "7b2261223a225253412d4f4145502d534841323536222c2269223a2235353065383430302d653239622d343164342d613731362d343436363535343430303030222c2274223a313734363738393132333435367d",
+        "encoder_params": {
+          "quality": 11,
+          "lgwin": 22,
+          "mode": "generic"
+        }
+      },
+      "expected": {
+        "decompressed_hex": "7b2261223a225253412d4f4145502d534841323536222c2269223a2235353065383430302d653239622d343164342d613731362d343436363535343430303030222c2274223a313734363738393132333435367d",
+        "roundtrip_property": "decompress(compress(input)) MUST equal input. Exact compressed bytes are NOT required to match across implementations."
+      }
+    }
+  ]
+}

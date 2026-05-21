@@ -1,0 +1,112 @@
+{
+  "version": "v1",
+  "kind": "deterministic",
+  "category": "msg-id-formatting",
+  "description": "Acceptance/rejection of candidate values for the body's 'i' field (message identifier) per spec/v1/06-message-body.md section 6.2.2 and the regex in schemas/v1/message.schema.json. Inputs are candidate strings; expected.accept indicates whether the schema MUST accept the value.",
+  "spec_references": [
+    "spec/v1/06-message-body.md#6.2.2",
+    "spec/v1/02-conventions.md#2.5"
+  ],
+  "cases": [
+    {
+      "id": "v1-det-msg-id-formatting-001",
+      "description": "accept: canonical lowercase UUIDv4",
+      "inputs": {
+        "candidate": "550e8400-e29b-41d4-a716-446655440000"
+      },
+      "expected": {
+        "accept": true
+      }
+    },
+    {
+      "id": "v1-det-msg-id-formatting-002",
+      "description": "accept: variant nibble 8",
+      "inputs": {
+        "candidate": "00000000-0000-4000-8000-000000000000"
+      },
+      "expected": {
+        "accept": true
+      }
+    },
+    {
+      "id": "v1-det-msg-id-formatting-003",
+      "description": "accept: variant nibble 9",
+      "inputs": {
+        "candidate": "00000000-0000-4000-9000-000000000000"
+      },
+      "expected": {
+        "accept": true
+      }
+    },
+    {
+      "id": "v1-det-msg-id-formatting-004",
+      "description": "accept: variant nibble a",
+      "inputs": {
+        "candidate": "00000000-0000-4000-a000-000000000000"
+      },
+      "expected": {
+        "accept": true
+      }
+    },
+    {
+      "id": "v1-det-msg-id-formatting-005",
+      "description": "accept: variant nibble b",
+      "inputs": {
+        "candidate": "00000000-0000-4000-b000-000000000000"
+      },
+      "expected": {
+        "accept": true
+      }
+    },
+    {
+      "id": "v1-det-msg-id-formatting-006",
+      "description": "reject: uppercase",
+      "inputs": {
+        "candidate": "550E8400-E29B-41D4-A716-446655440000"
+      },
+      "expected": {
+        "accept": false
+      }
+    },
+    {
+      "id": "v1-det-msg-id-formatting-007",
+      "description": "reject: missing hyphens",
+      "inputs": {
+        "candidate": "550e8400e29b41d4a716446655440000"
+      },
+      "expected": {
+        "accept": false
+      }
+    },
+    {
+      "id": "v1-det-msg-id-formatting-008",
+      "description": "reject: UUIDv1 (version nibble 1)",
+      "inputs": {
+        "candidate": "550e8400-e29b-11d4-a716-446655440000"
+      },
+      "expected": {
+        "accept": false
+      }
+    },
+    {
+      "id": "v1-det-msg-id-formatting-009",
+      "description": "reject: variant nibble c (RFC 9562 reserved)",
+      "inputs": {
+        "candidate": "00000000-0000-4000-c000-000000000000"
+      },
+      "expected": {
+        "accept": false
+      }
+    },
+    {
+      "id": "v1-det-msg-id-formatting-010",
+      "description": "reject: variant nibble 0 (NCS reserved)",
+      "inputs": {
+        "candidate": "00000000-0000-4000-0000-000000000000"
+      },
+      "expected": {
+        "accept": false
+      }
+    }
+  ]
+}

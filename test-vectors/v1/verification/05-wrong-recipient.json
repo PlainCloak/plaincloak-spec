@@ -1,0 +1,25 @@
+{
+  "version": "v1",
+  "kind": "verification",
+  "category": "wrong-recipient",
+  "description": "Ciphertext encrypted to a key that the consumer does not hold. Consumer MUST NOT attempt decryption with any other key; outcome is wrong-recipient per spec/v1/10-encrypt-decrypt.md section 10.3.2.",
+  "spec_references": [
+    "spec/v1/10-encrypt-decrypt.md#10.2",
+    "spec/v1/10-encrypt-decrypt.md#10.3.2"
+  ],
+  "cases": [
+    {
+      "id": "v1-ver-wrong-recipient-001",
+      "description": "Encrypted to bob-rsa4096; consumer holds only alice-rsa2048.",
+      "inputs": {
+        "wire": "PLAINCLOAK:v1:BR:qqHQq2qjsBg2i7ZtV0owdtjGJDsFleW1Jx76AhnmvNhSroqP7k5CyVcWnV1DPWZMt1Uq02X2OlmqxLWMYZQpROaCxcZ9SZKoREVPgUof4btyIM5BfuTZqoebpLPHNuEIpZ5VV5faiEWbxEdcYq4NIK1FfyChzGO2ga0maK4OGvysGkovKsGdQULRFbEx8BGcqFdYcMwWbpM17ZGLdznORksniNC4TKm50Y5emPH0sDYzQ2WvtLTOiSrSk0x2PPDHvpePSFpAgN3xwbGHhQd0i1msyhxl8yfoHTVSkcQCnKyfWTY95ZuaTb0eKsO4q1NccldmCIV1SRdZ2qWpdfZkS7vKjKdalRpcFmm9QxSkjQ60fAD1wwYbYeZmO7EbTCwrcd09PPf50j0QSMpWS0ZcPp4yCqbRiiqz3jZdjqP1zT0YQSIOp88VfSFFKT9L0W5nr8OQaLselQ9NMIDHk0AzZrdk4PMi4o5afVyvV2LKXJf651jS2zrcdNqX9VLpujJRytrXqG6b0IkfAEqokQE1gkrbz7cBPkaCjwfhc0aUu8hFd9BkIsgHJ2s7CrLlea1qS0UfNVvGCFiM6zYUdxAGM1bnCH10zIfxYavDIBrPecNpEheNV1QqlnpPHgQEmKBN6GRwBuBBZuIHGG89THGQejqjt2VjXdiBTo2Z24tDVaw7HFTzTH5MowAimjD2cIQplNj8Ns5gFTz186T0r1Y1qaU3JsUwP0fCAReXwunupFPYEj4vAzheBrh50pUdKJZw2Nk3FDiuV1KFelLMd9BjTuWmYGlYH5Yct9VU6MwQmkRdfVOLVqzHeWV6dTzKeAHGpo6FP4xjCECTkN4uGjLw5ghUM7GhWKdahWfl4p0DYzJPmz9hRyMBNX1s9SPYYomFMWmpCvKhqcY30jcl3cBAW9TNYlRIqFBNTtyR9dnwj6tNQJeP8uz2CLSgrZ4ocvOdKCeAPzW59l5o6X0AqoyxyTnogMD3ZOCnKagkVjilGj1wHZshoms8TLQz7sa5R64YE4nGvaBN3bYOV1SjmKyJRDeAgGMVqx9F98n3yQnK3ERKtkoq4L3cirn8aD8RPFyWvUrJ6DABRZ3cvAWEKinYyjawg5jeQU7dsZ2h3wbGpqckbJUq6Q7Tf9Pn7ofXjI8PZfH50vlThg0Ba8SU4BATmhWgbC2n8iB5e6oASiHxDdW2v1vUaOwpCZ3qdYc2T9lTCcdJu8YRvO6A7QT23ceHvhJshwsGuB2dVG2hRkZD8o59uiyQiiFNrLHytysUm7CQnyUceJiFVrnD8XyU1dUuiXB3dmaFKGBkTnWbzkgJPCpiBdxlCa3",
+        "recipient_priv_pem_path": "test-vectors/v1/fixtures/keys/alice-rsa2048-priv.pem",
+        "trusted_senders": []
+      },
+      "expected": {
+        "outcome": "wrong-recipient",
+        "plaintext_present": false
+      }
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://plaincloak.org/test-vectors/v1/schema.json",
+  "title": "PlainCloak v1 test-vector file",
+  "description": "Schema that every file in test-vectors/v1/deterministic/ and test-vectors/v1/verification/ MUST conform to. The category-specific shape of inputs and expected is described in the file's own README and in the relevant spec section.",
+  "type": "object",
+  "required": ["version", "kind", "category", "description", "cases"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "v1"
+    },
+    "kind": {
+      "type": "string",
+      "enum": ["deterministic", "verification"]
+    },
+    "category": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Short kebab-case label, e.g. 'base62-encode' or 'rsa2048-roundtrip'."
+    },
+    "description": {
+      "type": "string"
+    },
+    "spec_references": {
+      "type": "array",
+      "description": "Section paths in the spec that this file exercises, e.g. ['spec/v1/04-encoding.md#4.2'].",
+      "items": { "type": "string" }
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "description", "inputs", "expected"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^v1-(det|ver)-[a-z0-9-]+-[0-9]{3}$",
+            "description": "Stable cross-reference ID. Format: v1-{det|ver}-{category}-{NNN}."
+          },
+          "description": {
+            "type": "string"
+          },
+          "inputs": {
+            "type": "object",
+            "description": "Category-specific input fields."
+          },
+          "expected": {
+            "type": "object",
+            "description": "Category-specific expected output fields. For verification vectors, includes 'outcome' which MUST be one of the five outcomes of spec/v1/10-encrypt-decrypt.md Section 10.3."
+          },
+          "skip_reason": {
+            "type": "string",
+            "description": "If present, implementations MAY skip this case. Used during draft phases where a case is documented but not yet stable."
+          }
+        }
+      }
+    }
+  }
+}

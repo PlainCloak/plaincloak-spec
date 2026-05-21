@@ -1,0 +1,32 @@
+{
+  "$schema": "./compression.schema.json",
+  "version": "v1",
+  "codes": [
+    {
+      "code": "BR",
+      "algorithm": "Brotli",
+      "reference": "RFC 7932",
+      "status": "required",
+      "produce": "MUST",
+      "consume": "MUST",
+      "notes": "Default for v1. See spec/v1/05-compression.md section 5.2."
+    },
+    {
+      "code": "ZS",
+      "algorithm": "Zstandard",
+      "reference": "RFC 8878",
+      "status": "reserved",
+      "produce": "MUST_NOT",
+      "consume": "MUST_NOT",
+      "notes": "Reserved. Parameters not yet specified; may be promoted within v1 by a future registry update under the policy of spec/v1/13-iana-considerations.md."
+    },
+    {
+      "code": "NO",
+      "algorithm": "Identity (no compression)",
+      "status": "optional",
+      "produce": "MAY",
+      "consume": "MAY",
+      "notes": "Diagnostic and test-vector use only. See spec/v1/05-compression.md section 5.3."
+    }
+  ]
+}

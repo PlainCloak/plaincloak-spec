@@ -1,0 +1,42 @@
+{
+  "version": "v1",
+  "kind": "deterministic",
+  "category": "key-hash-spki",
+  "description": "Inputs reference PEM-armored RSA public keys in fixtures/keys/. The expected key_hash is SHA-256(SPKI DER) hex-encoded lowercase, per spec/v1/09-key-identification.md section 9.2.",
+  "spec_references": [
+    "spec/v1/09-key-identification.md#9.2",
+    "spec/v1/08-crypto-suites.md#8.3.1"
+  ],
+  "cases": [
+    {
+      "id": "v1-det-key-hash-spki-001",
+      "description": "SHA-256 of SPKI DER for alice RSA-2048",
+      "inputs": {
+        "public_key_pem_path": "test-vectors/v1/fixtures/keys/alice-rsa2048-pub.pem"
+      },
+      "expected": {
+        "key_hash": "1bf44bedd390cd114d5511c53286330f29c9fe70a4ab86118731860898ef88da"
+      }
+    },
+    {
+      "id": "v1-det-key-hash-spki-002",
+      "description": "SHA-256 of SPKI DER for bob RSA-4096",
+      "inputs": {
+        "public_key_pem_path": "test-vectors/v1/fixtures/keys/bob-rsa4096-pub.pem"
+      },
+      "expected": {
+        "key_hash": "b3cef20ec636c4125ae580da93dc0f13bdcdb1c3eea907543ed35ad52e024aee"
+      }
+    },
+    {
+      "id": "v1-det-key-hash-spki-003",
+      "description": "SHA-256 of SPKI DER for stranger RSA-2048",
+      "inputs": {
+        "public_key_pem_path": "test-vectors/v1/fixtures/keys/stranger-rsa2048-pub.pem"
+      },
+      "expected": {
+        "key_hash": "a27738025c3f283be7d33c8502aabd4fb4daf06da1a033550e70f48aaa23b8bc"
+      }
+    }
+  ]
+}

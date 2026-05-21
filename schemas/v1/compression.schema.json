@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://plaincloak.org/schemas/v1/compression.schema.json",
+  "title": "PlainCloak v1 compression-code registry schema",
+  "description": "JSON Schema describing the shape of the PlainCloak v1 compression-code registry document. The registry instance is schemas/v1/compression.json. Prose specification (spec/v1/05-compression.md) is normative; if this schema disagrees with the prose, the prose wins.",
+  "type": "object",
+  "required": ["version", "codes"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri-reference"
+    },
+    "version": {
+      "type": "string",
+      "const": "v1"
+    },
+    "codes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["code", "algorithm", "status"],
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string",
+            "pattern": "^[A-Z]{2}$"
+          },
+          "algorithm": {
+            "type": "string"
+          },
+          "reference": {
+            "type": "string",
+            "description": "Normative reference (e.g. 'RFC 7932')."
+          },
+          "status": {
+            "type": "string",
+            "enum": ["required", "recommended", "optional", "reserved", "deprecated"],
+            "description": "Registry status per spec/v1/13-iana-considerations.md section 13.3."
+          },
+          "produce": {
+            "type": "string",
+            "enum": ["MUST", "MAY", "MUST_NOT"]
+          },
+          "consume": {
+            "type": "string",
+            "enum": ["MUST", "MAY", "MUST_NOT"]
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

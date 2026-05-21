@@ -1,0 +1,35 @@
+{
+  "version": "v1",
+  "kind": "verification",
+  "category": "rsa4096-hybrid-roundtrip",
+  "description": "Hybrid (RSA-OAEP-AES256GCM-SHA256) encrypt-then-verify roundtrip with a 4096-bit recipient.",
+  "spec_references": [
+    "spec/v1/08-crypto-suites.md#8.10",
+    "spec/v1/10-encrypt-decrypt.md#10.2",
+    "spec/v1/10-encrypt-decrypt.md#10.3.1"
+  ],
+  "cases": [
+    {
+      "id": "v1-ver-rsa4096-hybrid-roundtrip-001",
+      "description": "Hybrid roundtrip with a 4096-bit recipient.",
+      "inputs": {
+        "wire": "PLAINCLOAK:v1:BR:2uGKYSZC4HHRDffn8Oa5I6eUxI7JFnnUYvkdhuJ8SXW8lP7MD9hxriy25PLghmxZlWpsMxKmQPbkqt2FghpM3zoJsMZkH7cQGzYvdiasrwGVY5uu4Lq76XPW2eFAIfypu1gEhjuniB8F8oW2FE6ISs8BpmgKtQ5CJ6Syuxhm90cxNjNZjFPK4AbpqdDMhUCKZX8aXdii3HSTzvtScBKDCfFQ1VEwuXeaOd5y2rfi3LNPxhcnXTxAflRgP84greRbNpUwKK81HZtkItnplvlzLgQszlb1nC6SNvejbb7izm8xmwY652uDfZ5GVV8uEDXtKdNHoo3et3sgkTnlHW35BwEQqQ5yJ3fM1VXx9LBL82seHHifvM80gtOl4VCqLG5PsN6MmEHeXTPlSWHTKkKmovRZQJGum0yvYFk3Xbh08Cg8Tr19v9Qy8BPrjafiqc5wX0PTjr5sOaqoEc4t7qA7feFDFIMyZrN0gmd8MHsAS66Fje73iScVBiGYHPTgMcpIgZiggCzZDRSWzyqvzhYhOxwzlC4hx9OlD30QGTzLoCfwFCM7CH9UkpNYdpCMvqgrjOFUul8t47p4FebdNN4tJCtFSUipR1iWv5fEY2AIQhq7no0dWFEwW9B0QBt7quzxBOfPDsBErzhWDldz8dnPqRQNwCzrWEXmuXogRTqsKqsXwZtfRCVdbpkHAPayy4tk0CkR69J2HB1ZdMNHsiSE6yNLeAOtRL9Wz3WYe2OM3TcgkF6SGNke2OX9RDqvkZonvNmyXTPhCeb1U8KzAWmeq8NDmPGIGGgnuYgfeS98Z42k5p66YbFEKOWkzjLoteR4b4thWhlkTfQuZxk2nwPi6WbGnYKhhzTc5jOG10hf1GbzZenv05EF2fkLIlddIC9ywvXBNVsJcDI8tPzlVhjSIUjexEz5quCLGZSIUlFTlqD2alKkL7Wo4ksku2IcmF5Zd0WRMNa8m6n3gEPj4vCUiezsreGB6owwKeiM6BcMqm9OWe13XCunZGuMdQweGhGG31YOVQomzZjGMKa9ZNChsaTWV5zdj9npQ61B78KXfOoA9Or2QYZ6c9EOBUrZH7zVxmmWFcbUT5XUOwKO6Kj8uBb3gBlLFBJYA40JhP2ZVr3zqzFecY8K0B6E3l71Xgqqvm9cYCocUIRDpr168Hp5kd6CtEbO7YJw0gxkO6SowjDw1xg8DftjiuT8VpeQo2md6Uaknz8l2KqPy8zAp7LyRKiuGBziOUR5XCDHemuWvOQBvZDeMPdXSRnplrWs4glIKc0aGQBLuZNVGLPCgKeLZSv1UMuAZWb9empUPozdsz14GTvhNVzpkt0Pq19ZGSKwNB9C1zlFeBbxoeeXhFY2gQWl8dReRrz5SrAgGXVdRYNSnId9uiPaLlhVyVujhMv1bYO1Vlm",
+        "recipient_priv_pem_path": "test-vectors/v1/fixtures/keys/bob-rsa4096-priv.pem",
+        "trusted_senders": [
+          {
+            "key_hash": "1bf44bedd390cd114d5511c53286330f29c9fe70a4ab86118731860898ef88da",
+            "public_key_pem_path": "test-vectors/v1/fixtures/keys/alice-rsa2048-pub.pem"
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "verified",
+        "plaintext": "Hello Bob. RSA-4096 hybrid roundtrip test.",
+        "msg_id": "c1de17a9-2f06-474c-a4bd-eba3fa980800",
+        "timestamp": 1746789123456,
+        "sender_key_hash": "1bf44bedd390cd114d5511c53286330f29c9fe70a4ab86118731860898ef88da",
+        "recipient_key_hash": "b3cef20ec636c4125ae580da93dc0f13bdcdb1c3eea907543ed35ad52e024aee"
+      }
+    }
+  ]
+}

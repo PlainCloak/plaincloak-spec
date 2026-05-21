@@ -1,0 +1,25 @@
+{
+  "version": "v1",
+  "kind": "verification",
+  "category": "unknown-sender",
+  "description": "A signed wire message whose sender is not in the consumer's contacts. Decryption succeeds, signature verification is NOT attempted, and plaintext is surfaced with the unknown-sender outcome per spec/v1/10-encrypt-decrypt.md section 10.3.5.",
+  "spec_references": [
+    "spec/v1/10-encrypt-decrypt.md#10.2",
+    "spec/v1/10-encrypt-decrypt.md#10.3.5"
+  ],
+  "cases": [
+    {
+      "id": "v1-ver-unknown-sender-001",
+      "description": "Sender's key not present in consumer's contacts.",
+      "inputs": {
+        "wire": "PLAINCLOAK:v1:BR:19h4WEBzlSgm16Yf3Zw2hRBWtKKjjFoMFSXSurUJm6bXDQZoRj797EUQVS8cWiHsQrdCy142xdpPKW1pCDw54U6XlrDL7NaL20l7FX6Qw4KJLCat0OL9c8lQMOja9u3dNLKuiNq9OE7czOmdnaFi0egILZzzJRA1t7eJTU11w18JMmRwXQbfZeTEoEJwUwuzECQzRaEQ1WSpEJv4hCE00mhoonhR7wPo9O6POVUdk6Fio8Ui24mpZ92nHekeWcFXhM1YFshEDdXKaMtwPbHLAjtIAYo5wMZweVQ3q13I6C2FciJYgoMS7Rj4ygONo7QMMIwdkpf95G8m20HVVjJC4fxQ2I8zRPN5CEHTjLQTc3ooOOSWlkUavFttgrwb2Gd7nMa0iSyANXRXkekOu0tj5ID5lzm9UBPAFxzRBZY98taDxXXNjjGllphO3bP6DU5DI1tcmU7PHgVsOvgroLmIEAjKk6AyQ8tTmEL0kP2AA6SOPTTpSs4h6PhHk1MlzbdVt59UE4DmXNuyNG4lvoiZU72O9ofD5gsyybSRMWQILC93Q1B0JxEtTIVYx9KDjX4ne3Shpy88Zw2tgtPvQNZIkRsJ7uvo8JH7jIFQRiYBF5ON0SXXQxNZnTlSBPs2IwNqd1o2NkKsloJR0gqlCRmZJV5GCEigdZGJ3s0JO7Z2ipdl7vD3LedufwXllwT4eGHfRA8ddVODZOn36KFHTOUiqY9em4A7HRtZPM8V3GtVEAweoCPa0LGubC1sKuXvKQQV4CWRwO3C7DGaQUfjq0QHocXOHzfP2n0OuJsbhTJ12Wry6tsR7f7netpbB8rFcNjeHjnILbMVZrbB9ktS8eyD04K87IkmSYV7PTatV6tnnHDf7GJYygBzMK2nGO5sTuNlfiQTLm63KHF5NkISraDGF1yWrsWY6Jt4TSFuLcNDL6FZem7FggjDL",
+        "recipient_priv_pem_path": "test-vectors/v1/fixtures/keys/alice-rsa2048-priv.pem",
+        "trusted_senders": []
+      },
+      "expected": {
+        "outcome": "unknown-sender",
+        "plaintext": "Unknown-sender test."
+      }
+    }
+  ]
+}

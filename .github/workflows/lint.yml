@@ -1,0 +1,73 @@
+name: lint
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  json-schema:
+    name: validate JSON Schemas
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install ajv-cli
+        run: npm install -g ajv-cli@5.0.0 ajv-formats@3.0.1
+      - name: Meta-validate message and keystore schemas
+        run: |
+          ajv compile -c ajv-formats --spec=draft2020 --strict=false -s schemas/v1/message.schema.json
+          ajv compile -c ajv-formats --spec=draft2020 --strict=false -s schemas/v1/keystore.schema.json
+      - name: Validate compression registry
+        run: ajv validate -c ajv-formats --spec=draft2020 --strict=false -s schemas/v1/compression.schema.json -d schemas/v1/compression.json
+      - name: Validate algorithms registry
+        run: ajv validate -c ajv-formats --spec=draft2020 --strict=false -s schemas/v1/algorithms.schema.json -d schemas/v1/algorithms.json
+      - name: Validate vector files against vector schema
+        run: |
+          for f in test-vectors/v1/deterministic/*.json test-vectors/v1/verification/*.json; do
+            ajv validate -c ajv-formats --spec=draft2020 --strict=false -s test-vectors/v1/schema.json -d "$f"
+          done
+
+  abnf:
+    name: ABNF parse-check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install abnf
+        run: pip install "abnf==2.*"
+      - name: Parse-check wire ABNF
+        run: |
+          python - <<'PY'
+          from abnf.parser import Rule, ParseError
+
+          class Wire(Rule):
+              pass
+
+          # Load every rule in the grammar file.
+          Wire.from_file("schemas/v1/wire.abnf")
+
+          # The grammar must accept a well-formed wire message...
+          Wire("wire-message").parse_all("PLAINCLOAK:v1:BR:aZ09xY")
+
+          # ...and reject malformed ones (wrong magic case, bad version,
+          # lowercase comp-code, non-Base62 char, empty payload).
+          for bad in (
+              "plaincloak:v1:BR:aZ09",
+              "PLAINCLOAK:v2:BR:aZ09",
+              "PLAINCLOAK:v1:br:aZ09",
+              "PLAINCLOAK:v1:BR:aZ-9",
+              "PLAINCLOAK:v1:BR:",
+          ):
+              try:
+                  Wire("wire-message").parse_all(bad)
+              except ParseError:
+                  continue
+              raise SystemExit(f"grammar wrongly accepted: {bad!r}")
+
+          print("ABNF parsed and accept/reject checks passed.")
+          PY

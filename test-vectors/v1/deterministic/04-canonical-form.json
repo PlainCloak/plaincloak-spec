@@ -1,0 +1,65 @@
+{
+  "version": "v1",
+  "kind": "deterministic",
+  "category": "canonical-form",
+  "description": "Inputs are message bodies (signature field 'g' omitted) plus a wire version integer. Expected output is the canonical-form string per spec/v1/07-canonical-form.md section 7.2. The signed bytes are utf-8(canonical). The leading '1:' segment is the wire version integer (Section 7.2.3); for v1 it is always the literal '1'.",
+  "spec_references": [
+    "spec/v1/07-canonical-form.md#7.2"
+  ],
+  "cases": [
+    {
+      "id": "v1-det-canonical-form-001",
+      "description": "minimal body fields concatenated by colons, version pulled from wire envelope",
+      "inputs": {
+        "wire_version_int": 1,
+        "body": {
+          "a": "RSA-OAEP-SHA256",
+          "i": "550e8400-e29b-41d4-a716-446655440000",
+          "t": 1746789123456,
+          "s": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "r": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "p": "TmluZXR5IG5pbmU="
+        }
+      },
+      "expected": {
+        "canonical": "1:RSA-OAEP-SHA256:550e8400-e29b-41d4-a716-446655440000:1746789123456:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb:TmluZXR5IG5pbmU="
+      }
+    },
+    {
+      "id": "v1-det-canonical-form-002",
+      "description": "timestamp 0 produces literal '0'",
+      "inputs": {
+        "wire_version_int": 1,
+        "body": {
+          "a": "RSA-OAEP-SHA256",
+          "i": "00000000-0000-4000-8000-000000000000",
+          "t": 0,
+          "s": "0000000000000000000000000000000000000000000000000000000000000000",
+          "r": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+          "p": ""
+        }
+      },
+      "expected": {
+        "canonical": "1:RSA-OAEP-SHA256:00000000-0000-4000-8000-000000000000:0:0000000000000000000000000000000000000000000000000000000000000000:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff:"
+      }
+    },
+    {
+      "id": "v1-det-canonical-form-003",
+      "description": "max-safe timestamp serializes without sign or padding",
+      "inputs": {
+        "wire_version_int": 1,
+        "body": {
+          "a": "RSA-OAEP-SHA256",
+          "i": "11111111-2222-4333-8444-555555555555",
+          "t": 9007199254740991,
+          "s": "1234000000000000000000000000000000000000000000000000000000000000",
+          "r": "5678000000000000000000000000000000000000000000000000000000000000",
+          "p": "QQ=="
+        }
+      },
+      "expected": {
+        "canonical": "1:RSA-OAEP-SHA256:11111111-2222-4333-8444-555555555555:9007199254740991:1234000000000000000000000000000000000000000000000000000000000000:5678000000000000000000000000000000000000000000000000000000000000:QQ=="
+      }
+    }
+  ]
+}

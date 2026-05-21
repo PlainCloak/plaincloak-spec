@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PlainCloak protocol versions index",
+  "description": "Machine-readable index of protocol versions published by this repository. Implementations and tooling MAY consume this file to discover which versions are stable, draft, or deprecated.",
+  "versions": [
+    {
+      "version": "v1",
+      "spec_text_version": "1.0.0",
+      "status": "stable",
+      "spec": "spec/v1/",
+      "schemas": "schemas/v1/",
+      "vectors": "test-vectors/v1/",
+      "notes": "Initial public release. The wire format, canonical form, message body, and crypto suites are frozen. Breaking changes introduce a new wire version as a sibling directory."
+    }
+  ]
+}

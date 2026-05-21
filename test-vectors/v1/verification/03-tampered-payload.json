@@ -1,0 +1,30 @@
+{
+  "version": "v1",
+  "kind": "verification",
+  "category": "tampered-payload",
+  "description": "A wire message whose payload was modified after signing. Decryption MUST fail before signature verification is attempted, per spec/v1/10-encrypt-decrypt.md section 10.2 step 2.",
+  "spec_references": [
+    "spec/v1/10-encrypt-decrypt.md#10.2",
+    "spec/v1/10-encrypt-decrypt.md#10.3.3"
+  ],
+  "cases": [
+    {
+      "id": "v1-ver-tampered-payload-001",
+      "description": "Last byte of OAEP ciphertext flipped after signing.",
+      "inputs": {
+        "wire": "PLAINCLOAK:v1:BR:5yLmJonyQMUBJELoPjm3JK99rAyziJ3O9ryVgEAFUFgHDHeYVjlYHR7jCimP7XNcRHs7Jbvh9wY8uZ2H438UoPnktHHKSv6AreOM4i3qC0Si6hoXAkRpBsNhot7bf0joNUqoUclGzDsH8LFBzvAyVjVf8XoVVKWR0qNNWoGcnJLho5ezsTn4oqyjFBjmpGsoJ3bEDJNbYne09MUqp3n6HFLsVtRIEdbGvgVCH78y1qzefGtrhxGFiqdQeduTYL9TlZspj1mby6l2Ih3BHEjqfGkgXxdcJy39Ao0ljKbzARq7RyaFmLOIclFncmXADbaA3tWv7Ur8v2XFe6YxPDNWVOR8LulBS7ytSqWK8GFAJx2ptdAR8Exg5iXAD5XDhp7CLoMJWYsTEKDPV0mnCeUk5LPF4QDce6eqA7Sy8qeoYPfMnwVhLfIEUCdbisUZeT84rJx1n3v0eUTNTzIYR75WovK0KtLCkITG2ELnSZKT6QTkXHoF9Mj9JUZXi4cGVVcTUC4CuYtY6xs7JyikyLxOKLj7sJHmaZiVyJkhWRxMrYvWfpKeyCAihZDUU58Pl0izWbO6U5EfGM62rtxCiA1P73pTJkR3IdHPrUlEtyHc1FdaR1YAKhSE59q7Nzojsw1FQmSYzwj1zPIJMu1vw1lMNFm4Zcat4FIb1gc6koJnVv2emCBkFe1xp1CfjYatG28MrUBjYoeVomotzGsvXXo2OI8rSFEIfarqPt49lg5VlKMxFYHdJsBWXH3vNGBPmZxLnq8IVXMmzJPTPyyYkHu96U7oUTWHhhpgN4e7cQ0NIAUCxqQ3a9qn57IEbYzAhM5f0jPbVIkIvWCdwKKIbH1FzMM1Nbpi7xO7jPpKY1GleY85iLiZyWOPVkxRJLCJaiKfUzjGaE6eEVVUpOE5dZIwUHGue9KRIdgsqF6YyzNfVXC3aojDEtR0TNf8sIIrsRWG7Tlx3xSEg84TyYDXJym7FrM7HZqebERdauvjfw3XSovsl3x0JwPCZw6ec7KdubMZFtBeiDdSRGeLsrkVyao9E4DY0TRTSHLcpDLZT9l4cSp7H9ZC8sn941zWHTkfYeB2Mg59vbQ462wJlqjlPuQdBFdL5xsDokHXbzjmFnmalauoMuQCa8B6HYqzLSOtU5SUF7de1GW0wJrNOk5TVHz8oNcx1XxTzjbMzgFSKGQJi8J51BxsWFXvT6UQQsDR4Zt2ixNPy8tnbrq7hnCOR0uOdSUaoaNxNpshJBQLaUHvCV9ubCcTt94hiK7F9TNl0wi9ich95RYzC2xA9hEKMdvUcfn82Z",
+        "recipient_priv_pem_path": "test-vectors/v1/fixtures/keys/bob-rsa4096-priv.pem",
+        "trusted_senders": [
+          {
+            "key_hash": "1bf44bedd390cd114d5511c53286330f29c9fe70a4ab86118731860898ef88da",
+            "public_key_pem_path": "test-vectors/v1/fixtures/keys/alice-rsa2048-pub.pem"
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "decryption-failed",
+        "plaintext_present": false
+      }
+    }
+  ]
+}

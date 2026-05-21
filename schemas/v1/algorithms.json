@@ -1,0 +1,61 @@
+{
+  "$schema": "./algorithms.schema.json",
+  "version": "v1",
+  "suites": [
+    {
+      "id": "RSA-OAEP-SHA256",
+      "encryption": {
+        "algorithm": "RSAES-OAEP",
+        "hash": "SHA-256",
+        "mgf": "MGF1-SHA-256",
+        "label": "empty"
+      },
+      "signing": {
+        "algorithm": "RSASSA-PSS",
+        "hash": "SHA-256",
+        "mgf": "MGF1-SHA-256",
+        "salt_length_bytes": 32
+      },
+      "key_type": {
+        "family": "RSA",
+        "min_modulus_bits": 2048,
+        "supported_modulus_bits": [2048, 3072, 4096],
+        "public_exponent": 65537,
+        "public_key_encoding": "SPKI",
+        "private_key_encoding": "PKCS8"
+      },
+      "status": "required",
+      "produce": "MUST",
+      "consume": "MUST",
+      "reference": "RFC 8017",
+      "notes": "Direct RSA-OAEP encryption. Plaintext capped at n-66 bytes (190 for RSA-2048, 446 for RSA-4096). See spec/v1/08-crypto-suites.md sections 8.4-8.7."
+    },
+    {
+      "id": "RSA-OAEP-AES256GCM-SHA256",
+      "encryption": {
+        "kem":  { "algorithm": "RSAES-OAEP", "hash": "SHA-256", "mgf": "MGF1-SHA-256", "label": "empty" },
+        "aead": { "algorithm": "AES-GCM", "key_bits": 256, "nonce_bits": 96, "tag_bits": 128 },
+        "aad_source": "canonical-form-without-p"
+      },
+      "signing": {
+        "algorithm": "RSASSA-PSS",
+        "hash": "SHA-256",
+        "mgf": "MGF1-SHA-256",
+        "salt_length_bytes": 32
+      },
+      "key_type": {
+        "family": "RSA",
+        "min_modulus_bits": 2048,
+        "supported_modulus_bits": [2048, 3072, 4096],
+        "public_exponent": 65537,
+        "public_key_encoding": "SPKI",
+        "private_key_encoding": "PKCS8"
+      },
+      "status": "recommended",
+      "produce": "MAY",
+      "consume": "MUST",
+      "reference": "RFC 8017, RFC 7518 section 4.3, NIST SP 800-38D",
+      "notes": "Hybrid suite. RSA-OAEP-SHA256 wraps a fresh AES-256 key; AES-256-GCM (12-byte nonce, 16-byte tag) encrypts the plaintext. Removes the RSA-OAEP n-66 ceiling; plaintext bounded only by spec/v1/06-message-body.md section 6.5. Reuses the same RSA keypairs and key hashes as RSA-OAEP-SHA256. See spec/v1/08-crypto-suites.md section 8.10."
+    }
+  ]
+}

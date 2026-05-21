@@ -1,0 +1,34 @@
+{
+  "version": "v1",
+  "kind": "verification",
+  "category": "rsa2048-roundtrip",
+  "description": "Encrypt-then-verify roundtrip with a 2048-bit recipient.",
+  "spec_references": [
+    "spec/v1/10-encrypt-decrypt.md#10.2",
+    "spec/v1/10-encrypt-decrypt.md#10.3.1"
+  ],
+  "cases": [
+    {
+      "id": "v1-ver-rsa2048-roundtrip-001",
+      "description": "Encrypt-then-verify roundtrip with a 2048-bit recipient.",
+      "inputs": {
+        "wire": "PLAINCLOAK:v1:BR:4dHRrngWcgate3V2PFZwBFZFXfOSeE8wohFquePTWZYeatFaSIjeuBuUPlrFGdis7ApTmSyZh289u7x9QPw45aAp0l3ZLroavwyplTUQuXvE7LD9DyyBaDqeC7R8hFjQcRtx6AXZIU3UjpXrQDookWeUzV5kCwS9zL0Bj3bcbJWWR9Cu6LL95MPU4BtgonpOScByaHBdVBEaiQLA8hAa1RQAp5zWNITdlIbNSICsHoIVr2EF61O1NBpIAe4bReR7i7ney8i6EKQIHaFhSTPlUjnVqulVW5I7amRDkCKmJPHazRZWD44W6L5bnivUImytukxxQ6rxARupq99quOtBX2plXj8p5QKvDdDD2GpujN2d8FK2Z8jaByJhQOnzQhmGbvf1hNkDIcgA8ybsP9Yk7Tdg6nJMw622bgMt2WEXDlzQGU2WsjUdliK0NS1bZ5LYbm1jmnIF48yfhqXvKuH8OpO4gCtHe3j7jf6mzN8JqFT42ApiSIuXaHzstAvIPEnP5jRVBYzHVXJ7yu1KkLbOewY4RWpcWv9psjRYvvamTAEa1vggus1vOzQJsGOFXDBxs3r9kNTUWYbhAbZEBHFeLI54YvLSVNWirs0yIxcspm8EK1sIuywwy5fpbVaglrxDjHFnUh3wdSZOfuovjQDscxMeflmxeszJlNEiWlF5BzCTPlEZT7CCyC3F1ZeQHjJYTOFSJwiuHnunF7YBgRKjVuv1LbTe3xiroHrLkClEnzQmT0vdcVIImLzUxbLwAAr92qUUUe4CDirVi4KT7JQ33eHs8F8J95MAJcj4kQhiWfYovA9GADswMVxDQelhv1yFoA0wffPcmwW5M2Vh4LlXg32oDev0ImDWvg6tOIgLgUwONPxcAbjqXJnqOcy4Kmsz5ap2rfSr2IZZtZaA6Ws5a0j0s6RwdqZE9GKaXx7J9dJW0cNo4YKur68SBsSOUrD8GFSUkDy7Nn1z1zIoeaAVO5CkcgmavTssSC1z3oF88A92JQgUVCdnsw1Udy1frD2LznSOyM3AanJT5jZgT9l2JSEls2mkL87cfONYL68J0kHy5HkvDQolBBnl1nzq9sVT3jV80JhCn2yHlrioZh8lHrlib2UZFXA1lRIbRbrvtdNtKCFku4WypNyLWKU3Bui6F5l9FNCQpQXzV6Wp2Ov7jzfIZdXirbKcsKtLvHPf9TOav0cMDLuJDq7bwOoJg3d7qQsf4Av1j5IQw1yiiVsWng1oAmRjBWQA8FZZvfGk9mpcoJbWyPMypCC7KJPqTsd4B6k3sKZKD140l2CeBL",
+        "recipient_priv_pem_path": "test-vectors/v1/fixtures/keys/alice-rsa2048-priv.pem",
+        "trusted_senders": [
+          {
+            "key_hash": "b3cef20ec636c4125ae580da93dc0f13bdcdb1c3eea907543ed35ad52e024aee",
+            "public_key_pem_path": "test-vectors/v1/fixtures/keys/bob-rsa4096-pub.pem"
+          }
+        ]
+      },
+      "expected": {
+        "outcome": "verified",
+        "plaintext": "Hello Alice. RSA-2048 roundtrip test.",
+        "msg_id": "b77aa469-2f06-474c-a4bd-eba3fa98989a",
+        "timestamp": 1746789123456,
+        "sender_key_hash": "b3cef20ec636c4125ae580da93dc0f13bdcdb1c3eea907543ed35ad52e024aee",
+        "recipient_key_hash": "1bf44bedd390cd114d5511c53286330f29c9fe70a4ab86118731860898ef88da"
+      }
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+PlainCloak Specification - License Summary
+===========================================
+
+Copyright 2026 The PlainCloak Authors
+
+This repository is dual-licensed:
+
+  * Prose (`spec/`, `docs/`, `.github/`, `README.md`, `CONTRIBUTING.md`,
+    `SECURITY.md`, `CHANGELOG.md`) is licensed under the Creative Commons
+    Attribution 4.0 International License (CC-BY-4.0).
+    See [LICENSE-SPEC](LICENSE-SPEC) for the full text. SPDX-License-Identifier: CC-BY-4.0
+
+  * Machine-readable artifacts (`schemas/`, `test-vectors/`, `versions.json`)
+    are licensed under the Apache License, Version 2.0.
+    See [LICENSE-CODE](LICENSE-CODE) for the full text. SPDX-License-Identifier: Apache-2.0
+
+Implementations of the PlainCloak protocol may be released under any license;
+the licenses above cover only the contents of this repository.

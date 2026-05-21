@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://plaincloak.org/schemas/v1/algorithms.schema.json",
+  "title": "PlainCloak v1 cryptographic-suite registry schema",
+  "description": "JSON Schema describing the shape of the PlainCloak v1 cryptographic-suite registry document. The registry instance is schemas/v1/algorithms.json. Prose specification (spec/v1/08-crypto-suites.md) is normative; if this schema disagrees with the prose, the prose wins.",
+  "type": "object",
+  "required": ["version", "suites"],
+  "additionalProperties": false,
+  "$defs": {
+    "directEncryption": {
+      "type": "object",
+      "description": "Direct public-key encryption: the asymmetric primitive encrypts the plaintext itself. Imposes a per-key plaintext length cap (e.g. n-66 for RSA-OAEP-SHA256).",
+      "required": ["algorithm", "hash", "mgf", "label"],
+      "additionalProperties": false,
+      "properties": {
+        "algorithm": { "type": "string" },
+        "hash":      { "type": "string" },
+        "mgf":       { "type": "string" },
+        "label":     { "type": "string", "description": "Hex-encoded OAEP label, or 'empty' for the empty octet string." }
+      }
+    },
+    "hybridEncryption": {
+      "type": "object",
+      "description": "Hybrid (KEM + AEAD) encryption: the asymmetric primitive wraps a fresh symmetric key; the symmetric AEAD encrypts the plaintext. No per-key plaintext length cap beyond the body-size limit of spec/v1/06-message-body.md section 6.5.",
+      "required": ["kem", "aead", "aad_source"],
+      "additionalProperties": false,
+      "properties": {
+        "kem": {
+          "type": "object",
+          "description": "Key-wrap / key-encapsulation primitive that protects the symmetric key.",
+          "required": ["algorithm"],
+          "additionalProperties": false,
+          "properties": {
+            "algorithm": { "type": "string" },
+            "hash":      { "type": "string" },
+            "mgf":       { "type": "string" },
+            "label":     { "type": "string", "description": "Hex-encoded OAEP label, or 'empty' for the empty octet string. Required when algorithm is RSAES-OAEP." }
+          }
+        },
+        "aead": {
+          "type": "object",
+          "description": "Authenticated symmetric primitive that encrypts the plaintext.",
+          "required": ["algorithm", "key_bits", "nonce_bits", "tag_bits"],
+          "additionalProperties": false,
+          "properties": {
+            "algorithm": { "type": "string" },
+            "key_bits":  { "type": "integer", "minimum": 128 },
+            "nonce_bits": { "type": "integer", "minimum": 64 },
+            "tag_bits":  { "type": "integer", "minimum": 64 }
+          }
+        },
+        "aad_source": {
+          "type": "string",
+          "description": "Source of the AEAD additional-authenticated-data bytes. 'canonical-form-without-p' means the canonical-form string of spec/v1/07-canonical-form.md section 7.2 with the p segment replaced by the empty string. 'empty' means no AAD.",
+          "enum": ["canonical-form-without-p", "empty"]
+        }
+      }
+    }
+  },
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri-reference"
+    },
+    "version": {
+      "type": "string",
+      "const": "v1"
+    },
+    "suites": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "encryption", "signing", "key_type", "status"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Suite identifier as it appears in the body's algo field.",
+            "pattern": "^[A-Za-z0-9-]+$"
+          },
+          "encryption": {
+            "description": "Encryption construction. Either a direct public-key encryption shape (single primitive) or a hybrid KEM+AEAD shape.",
+            "oneOf": [
+              { "$ref": "#/$defs/directEncryption" },
+              { "$ref": "#/$defs/hybridEncryption" }
+            ]
+          },
+          "signing": {
+            "type": "object",
+            "required": ["algorithm", "hash", "mgf", "salt_length_bytes"],
+            "additionalProperties": false,
+            "properties": {
+              "algorithm":         { "type": "string" },
+              "hash":              { "type": "string" },
+              "mgf":               { "type": "string" },
+              "salt_length_bytes": { "type": "integer", "minimum": 0 }
+            }
+          },
+          "key_type": {
+            "type": "object",
+            "required": ["family", "min_modulus_bits", "public_exponent"],
+            "additionalProperties": false,
+            "properties": {
+              "family":           { "type": "string" },
+              "min_modulus_bits": { "type": "integer", "minimum": 2048 },
+              "supported_modulus_bits": {
+                "type": "array",
+                "items": { "type": "integer", "minimum": 2048 }
+              },
+              "public_exponent": { "type": "integer", "minimum": 3 },
+              "public_key_encoding":  { "type": "string", "description": "ASN.1 / DER form, e.g. 'SPKI' (RFC 5280)." },
+              "private_key_encoding": { "type": "string", "description": "ASN.1 / DER form, e.g. 'PKCS8' (RFC 5958)." }
+            }
+          },
+          "status": {
+            "type": "string",
+            "enum": ["required", "recommended", "optional", "reserved", "deprecated"],
+            "description": "Registry status per spec/v1/13-iana-considerations.md section 13.3."
+          },
+          "produce": { "type": "string", "enum": ["MUST", "MAY", "MUST_NOT"] },
+          "consume": { "type": "string", "enum": ["MUST", "MAY", "MUST_NOT"] },
+          "reference": { "type": "string", "description": "Normative reference (e.g. 'RFC 8017')." },
+          "notes":     { "type": "string" }
+        }
+      }
+    }
+  }
+}

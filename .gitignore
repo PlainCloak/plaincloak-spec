@@ -1,0 +1,12 @@
+# Local working scratch (not committed to the spec repo)
+.scratch/
+
+# Editor and IDE state
+.vscode/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
