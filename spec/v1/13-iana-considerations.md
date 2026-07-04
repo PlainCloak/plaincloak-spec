@@ -64,7 +64,9 @@ Both registries use the same status values:
 | `reserved` | MUST NOT be produced. The name is held for a future allocation. | MUST be rejected as `unknown-*`. |
 | `deprecated` | SHOULD NOT be produced. Producers SHOULD migrate to a replacement. | MAY continue to be supported for backward compatibility. The registry entry MAY indicate `deprecated`-for-rejection at a future date. |
 
-A status change is itself a registry update under 13.1. Promoting `optional` to `recommended` to `required` requires the same Specification Required process as a fresh registration; demoting in the opposite direction (e.g. `required` to `deprecated`) likewise.
+**`deprecated`-for-rejection** (used in Sections 5.1 and 12) is not a sixth status value. It denotes a `deprecated` entry whose registry record additionally instructs consumers to reject it (per the last sentence of the `deprecated` row above). A plain `deprecated` entry without that instruction MAY still be consumed; a `deprecated`-for-rejection entry MUST be rejected with the applicable `unknown-*` error category, exactly as if it were `reserved`.
+
+A status change is itself a registry update under 13.1. Promoting `optional` to `recommended` to `required` requires the same Specification Required process as a fresh registration; demoting in the opposite direction (e.g. `required` to `deprecated`) likewise. Adding or removing the for-rejection instruction on a `deprecated` entry is likewise a registry update.
 
 ## 13.4 Naming conventions
 
