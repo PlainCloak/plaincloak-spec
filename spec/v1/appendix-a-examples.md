@@ -16,7 +16,7 @@ The producer-chosen random and time inputs are:
 
 | Body field | Illustrative value |
 |------------|--------------------|
-| `i` | `b5ca2440-fbb0-4e33-83af-4222bf2b0bf5` |
+| `i` | `b77aa469-2f06-474c-a4bd-eba3fa98989a` |
 | `t` | `1746789123456` |
 
 ## A.2 Producer steps
@@ -48,7 +48,7 @@ b3cef20ec636c4125ae580da93dc0f13bdcdb1c3eea907543ed35ad52e024aee
 **Step 10: Construct canonical form.** Per Section 7.2, prepending the wire version integer (`1` because the producer will emit a `v1` envelope):
 
 ```
-1:RSA-OAEP-SHA256:b5ca2440-fbb0-4e33-83af-4222bf2b0bf5:1746789123456:b3cef20ec636c4125ae580da93dc0f13bdcdb1c3eea907543ed35ad52e024aee:1bf44bedd390cd114d5511c53286330f29c9fe70a4ab86118731860898ef88da:<p>
+1:RSA-OAEP-SHA256:b77aa469-2f06-474c-a4bd-eba3fa98989a:1746789123456:b3cef20ec636c4125ae580da93dc0f13bdcdb1c3eea907543ed35ad52e024aee:1bf44bedd390cd114d5511c53286330f29c9fe70a4ab86118731860898ef88da:<p>
 ```
 
 (Where `<p>` is the exact `p` string from step 5.)
@@ -60,7 +60,7 @@ b3cef20ec636c4125ae580da93dc0f13bdcdb1c3eea907543ed35ad52e024aee
 ```json
 {
   "a": "RSA-OAEP-SHA256",
-  "i": "b5ca2440-fbb0-4e33-83af-4222bf2b0bf5",
+  "i": "b77aa469-2f06-474c-a4bd-eba3fa98989a",
   "t": 1746789123456,
   "s": "b3cef20ec636c4125ae580da93dc0f13bdcdb1c3eea907543ed35ad52e024aee",
   "r": "1bf44bedd390cd114d5511c53286330f29c9fe70a4ab86118731860898ef88da",
@@ -78,7 +78,7 @@ b3cef20ec636c4125ae580da93dc0f13bdcdb1c3eea907543ed35ad52e024aee
 **Step 16: Prepend envelope.** The final wire message:
 
 ```
-PLAINCLOAK:v1:BR:CD2H2A1vIwypq4CLQVVAXvKfQEpe...
+PLAINCLOAK:v1:BR:4dHRrngWcgate3V2PFZwBFZFXfOS...
 ```
 
 The complete wire string for this exact set of inputs is captured in `test-vectors/v1/verification/01-rsa2048-roundtrip.json`.
@@ -114,7 +114,7 @@ In each failure case, the outcome label is the security-relevant signal, not the
 
 ## A.5 Hybrid-suite example (`RSA-OAEP-AES256GCM-SHA256`)
 
-This walkthrough reuses the keys, `i`, `t`, `s`, and `r` of A.1 but selects the hybrid suite of Section 8.10. The illustrative plaintext is deliberately too long for direct RSA-OAEP under RSA-2048 (over 190 bytes) to demonstrate the lifted ceiling:
+This walkthrough reuses the keys, `t`, `s`, and `r` of A.1 but selects the hybrid suite of Section 8.10. The message identifier `i` shown below (`b5ca2440-fbb0-4e33-83af-4222bf2b0bf5`) is illustrative and does not correspond to any committed test vector. The illustrative plaintext is deliberately too long for direct RSA-OAEP under RSA-2048 (over 190 bytes) to demonstrate the lifted ceiling:
 
 ```
 Hello Alice. This is a longer message than RSA-OAEP-SHA256 alone could carry to your RSA-2048 key. The hybrid suite encrypts the plaintext under a fresh AES-256-GCM key and uses RSA only to wrap that key, so the plaintext length is bounded by Section 6.5 rather than by the modulus.
@@ -133,6 +133,6 @@ UTF-8 length: 286 bytes. Under `RSA-OAEP-SHA256` the producer would have failed 
 
 **Signing (unchanged from Section 8.6).** The producer constructs the canonical form per Section 7.2 over the seven fields (`a` is now `RSA-OAEP-AES256GCM-SHA256`, `p` is the Base64 string from step 6) and signs it with Bob's RSA-4096 private key. The signature is 512 bytes.
 
-**Wire output.** After body assembly, Brotli compression, and Base62 encoding, the producer emits a single `PLAINCLOAK:v1:BR:<base62>` string. The exact wire string for these inputs is captured in `test-vectors/v1/verification/07-rsa2048-hybrid-roundtrip.json` (with longer plaintext locked by `test-vectors/v1/verification/09-hybrid-long-plaintext.json`).
+**Wire output.** After body assembly, Brotli compression, and Base62 encoding, the producer emits a single `PLAINCLOAK:v1:BR:<base62>` string. This walkthrough's plaintext is illustrative and is not itself captured as a vector; the byte-stable hybrid cases are `test-vectors/v1/verification/07-rsa2048-hybrid-roundtrip.json` (short plaintext) and `test-vectors/v1/verification/09-hybrid-long-plaintext.json` (2048-byte plaintext).
 
 **Consumer.** The consumer matches `r` to Alice's private key, decodes `p`, splits at the fixed offsets (`wrapped_K` is the first 256 bytes, `nonce` the next 12, `tag` the last 16, `ct` everything between), RSA-decrypts the wrap to recover `K`, reconstructs the AAD, runs `AES-256-GCM-DECRYPT(K, N, ct, tag, AAD)`, and decodes UTF-8. The outcome with Bob in contacts is `verified`; the plaintext is delivered.

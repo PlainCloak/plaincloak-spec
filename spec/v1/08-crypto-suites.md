@@ -216,10 +216,10 @@ utf-8("<wire_version_int>:<a>:<i>:<t>:<s>:<r>:")
 
 with the trailing colon retained. The omission of `p` is required because `p` itself contains the AEAD output and cannot be computed before the AEAD call. The signature of Section 8.6 still binds the full canonical form (including `p`); the AEAD AAD binds the metadata independently as defense in depth.
 
-Worked example for the test-fixture inputs of Appendix A:
+Worked example for the inputs of `test-vectors/v1/verification/07-rsa2048-hybrid-roundtrip.json`:
 
 ```
-1:RSA-OAEP-AES256GCM-SHA256:b5ca2440-fbb0-4e33-83af-4222bf2b0bf5:1746789123456:b3cef20ec636c4125ae580da93dc0f13bdcdb1c3eea907543ed35ad52e024aee:1bf44bedd390cd114d5511c53286330f29c9fe70a4ab86118731860898ef88da:
+1:RSA-OAEP-AES256GCM-SHA256:c1de17a9-2f06-474c-a4bd-eba3fa980700:1746789123456:b3cef20ec636c4125ae580da93dc0f13bdcdb1c3eea907543ed35ad52e024aee:1bf44bedd390cd114d5511c53286330f29c9fe70a4ab86118731860898ef88da:
 ```
 
 ### 8.10.5 Decryption procedure
