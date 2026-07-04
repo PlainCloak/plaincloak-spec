@@ -89,3 +89,7 @@ Implementations claiming partial conformance (e.g. consumer-only) MUST document 
 The committed files were produced by a one-shot generator script kept outside this repository (it is not part of the spec deliverable, since shipping a runner would force a language choice). The fixed inputs (test plaintexts, fixed UUIDs and timestamps used as illustration) are either embedded directly in the vector files or, for cryptographic content, locked by referencing the PEM keys in `fixtures/keys/`.
 
 If a future change to the spec requires regenerating the vectors, the generator script should be re-run and its outputs committed. The PEM keys in `fixtures/keys/` are intentionally stable across regenerations so that key-hash vectors do not churn.
+
+## CI consistency check
+
+CI runs `.github/scripts/check_vectors.py` on every push and pull request. It recomputes the deterministic layers (Base62, canonical form, key hashes, Brotli round-trip), decodes each verification vector's wire message without any key material, and asserts that the decoded body agrees with the vector's `expected` block, the registries, and the byte-exact worked examples in the prose. It is an internal maintenance guard against drift between prose, vectors, and registries (it performs no decryption and is NOT the reference vector driver that Section 12.6 of the spec deliberately leaves to implementations).

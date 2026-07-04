@@ -30,6 +30,19 @@ jobs:
             ajv validate -c ajv-formats --spec=draft2020 --strict=false -s test-vectors/v1/schema.json -d "$f"
           done
 
+  vectors:
+    name: vector consistency
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install brotli cryptography
+      - name: Cross-check vectors, registries, and spec literals
+        run: python .github/scripts/check_vectors.py
+
   abnf:
     name: ABNF parse-check
     runs-on: ubuntu-latest
